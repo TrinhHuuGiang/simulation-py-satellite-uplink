@@ -26,10 +26,10 @@ def calculate_bit_rate_and_Bandreal():
     # Bandwidth = (1+rc_a)*R_sb <= cw_Bandmax
     # Lua chon R_sb thuoc N* cho de tinh
 
-    gd.R_sb = gd.cw_f//gd.div_fc_Rs
-    while (1+gd.rc_a)*gd.R_sb > gd.cw_Bandmax or gd.R_sb*gd.div_fc_Rs != gd.cw_f:
+    gd.R_sb = gd.cw_f/gd.div_fc_Rs
+    while (1+gd.rc_a)*gd.R_sb > gd.cw_Bandmax:
         gd.div_fc_Rs+=1
-        gd.R_sb = gd.cw_f//gd.div_fc_Rs
+        gd.R_sb = gd.cw_f/gd.div_fc_Rs
     
     # tinh bandwidth real
     gd.cw_Bandreal = (1+gd.rc_a)*gd.R_sb
@@ -54,7 +54,7 @@ def calculate_Antenna_trans_gain():
     '''
     Gain of transmitter atenna
     '''
-    # gain
+    # gain (lan cong suat)
     gd.at1_G = gd.at1_n*(np.pi * gd.at1_D / gd.at1_l)**2
 
 def calculate_rain_tolerance_distance():
@@ -69,7 +69,10 @@ def sequence_calculate():
     calculate_Antenna_trans_gain()
     calculate_rain_tolerance_distance()
 
-    print("Bandwidth: {:.3f} Hz\nDiv(fc/Rsb): {} lan\nSymbol rate: {} bps\tBitrate: {} bps\tSymbol div: {} lan\nFnyquist: {} Hz\nGain ant tx: {:.3} lan\ndo cao chiu mua: {:.3} km".format(
+
+    # Log essential data
+    print("\n","-"*10,"[fc = {}]".format(gd.cw_f),"-"*10)
+    print("Bandwidth: {:.3f} Hz\nDiv(fc/Rsb): {} lan\nSymbol rate: {:.3} bps\tBitrate: {:.3} bps\tSymbol div: {} lan\nFnyquist: {} Hz\nGain ant tx: {:.3} lan\ndo cao chiu mua: {:.3} km".format(
         gd.cw_Bandreal,
         gd.div_fc_Rs,
         gd.R_sb,

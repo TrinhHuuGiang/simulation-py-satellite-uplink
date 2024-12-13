@@ -41,8 +41,9 @@ def plot_ht_raise_cosine_filter(t, rc_time_h_t, rc_h_t):
 
     # plot dap ung xung bo loc
     plt.subplot(3,2,2) # 3 hang 2 cot, vi tri 2
-    plt.title("h(t) r-cos filter - Tsb = {:.4} s".format(gd.T_sb))
+    plt.title("h(t) r-cos | a={} - Tsb = {:.3} s".format(gd.rc_a,gd.T_sb))
     plt.plot(rc_time_h_t, rc_h_t)
+    plt.xlabel("(s)")
     
     # them cac vach chia chu ky
     x_positions = [] # tao list lưu vi tri can ve
@@ -51,12 +52,12 @@ def plot_ht_raise_cosine_filter(t, rc_time_h_t, rc_h_t):
 
     x_positions = np.array(x_positions) # chuyen list thanh array
     x_positions = np.concatenate([-x_positions[::-1],x_positions[1:]])
-
-    for x_pos in x_positions:
-        plt.axvline(x_pos, color='r', linestyle='--', alpha = 0.2)
     
     # danh dau lai truc hoanh
     plt.xticks(x_positions)
+
+    # grid
+    plt.grid()
 
     # ve truc hoanh
     plt.axhline(0, color='black',linewidth = 0.2)
@@ -72,33 +73,31 @@ def plot_symbol_rc_filted(t, rc_sI, rc_sQ):
     plt.figure(gd.fig1)
     
     # so mau can mo phong
-    num_sample = gd.N_sample_1sb*gd.num_mod_symbol
+    num_sample = gd.N_sample_1sb*gd.num_src_symbol
 
     # [plot rc_sI]
     plt.subplot(3,2,4) # 3 hang 2 cot, vi tri 4
+    plt.title("r-cos In-phase")
     plt.plot(t[:num_sample], rc_sI[:num_sample])
-    
-    # them cac vach chia symbol
-    for i in range(gd.num_mod_symbol):
-        plt.axvline(t[i*gd.N_sample_1sb], color='r', linestyle='--', alpha = 0.2)
+    plt.xlabel("(s)")
     
     # danh dau lai truc hoanh
     plt.xticks(t[:num_sample:gd.N_sample_1sb])
 
-    # ve truc hoanh
-    plt.axhline(0, color='black',linewidth = 0.2)
+    # grid
+    plt.grid()
 
     # [plot rc_sQ]
     plt.subplot(3,2,6) # 3 hang 2 cot, vi tri 6
+    plt.title("r-cos Quadrature")
     plt.plot(t[:num_sample], rc_sQ[:num_sample])
-    
-    # them cac vach chia symbol
-    for i in range(gd.num_mod_symbol):
-        plt.axvline(t[i*gd.N_sample_1sb], color='r', linestyle='--', alpha = 0.2)
+    plt.xlabel("(s)")
     
     # danh dau lai truc hoanh
     plt.xticks(t[:num_sample:gd.N_sample_1sb])
 
-    # ve truc hoanh
-    plt.axhline(0, color='black',linewidth = 0.2)
+    # grid
+    plt.grid()
 
+    # can chinh lai cac do thi
+    plt.tight_layout() # tu dong can lai khoang cach cac do thi

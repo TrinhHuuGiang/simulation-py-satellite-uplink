@@ -35,8 +35,9 @@ def plot_Bit_and_Symbol(bitstream, Istream, Qstream):
     plt.step(np.arange(0,gd.num_src_bit+1,1),bitstream[:gd.num_src_bit+1], where='post')
     
     plt.xticks(x_positions)
-    for x_pos in x_positions:
-        plt.axvline(x_pos, color='r', linestyle='--', alpha = 0.2)
+    
+    # grid
+    plt.grid()
 
     # plot I stream
     x_positions = np.arange(0,gd.num_src_symbol+1,1)
@@ -45,8 +46,9 @@ def plot_Bit_and_Symbol(bitstream, Istream, Qstream):
     plt.step(x_positions,Istream[:gd.num_src_symbol+1], where='post')
 
     plt.xticks(x_positions)
-    for x_pos in x_positions:
-        plt.axvline(x_pos, color='r', linestyle='--', alpha = 0.2)
+    
+    # grid
+    plt.grid()
 
     # plot Q stream
     plt.subplot(3,2,5) # 3 hang 2 cot, vi tri 5
@@ -54,8 +56,9 @@ def plot_Bit_and_Symbol(bitstream, Istream, Qstream):
     plt.step(x_positions,Qstream[:gd.num_src_symbol+1], where='post')
 
     plt.xticks(x_positions)
-    for x_pos in x_positions:
-        plt.axvline(x_pos, color='r', linestyle='--', alpha = 0.2)
+    
+    # grid
+    plt.grid()
     
     # can chinh lai cac do thi
     plt.tight_layout() # tu dong can lai khoang cach cac do thi

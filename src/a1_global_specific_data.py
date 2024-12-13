@@ -23,9 +23,9 @@ import numpy as np               # mang, ham toan hoc
 * global specific
 *************************************************************'''
 # Cac bieu do
-fig1 = plt.figure()
-fig2 = plt.figure()
-# global fig3
+fig1 = plt.figure() #plot signal before modulating
+fig2 = plt.figure() #plot waveform after modulated
+fig3 = plt.figure() #plot waveform after transmit
 # x = [1, 2, 3, 4, 5]
 # y = [1, 4, 9, 16, 25]
 
@@ -48,6 +48,7 @@ num_mod_symbol = 10     # Mo phong so chu ky song da qua dieu che QPSK
 cw_f = 14*10**9          # (var) Tan so song mang (14Ghz cho uplink GEO)
                                 # thay doi theo bang Ku uplink: 14 - 14.5 Ghz
 cw_Arms = 1             # (const)  Arms, bien do song mang root mean square, lay dai dien 1V cho de tinh toan
+                        # gia tri nay chuan hoa khong xet den R
 cw_sample = 2*10        # (const)  Lay mau tin hieu song mang, >> chuan Nyquist (*2)
 cw_fs = cw_f*cw_sample  # (depend) Tan so lay mau cho song mang 
 cw_Ts = 1/cw_fs         # (depend) Chu ky lay mau cho song mang
@@ -75,19 +76,23 @@ rc_a = 0.66             # (tu chon) He so cat 0< a < 1
 
 
 # Power Amplifier
-pa_a1 = 5/(cw_Arms**2)  # (var) Cac he so khuech dai
+Ptx = 5                 # (Tham khao bai tap) Ptx = 5W
+                        #-> (pa_a1*Arms)^2 = Ptx voi dieu kien pa_a2,pa_a3 << pa_a1
+                        # va he so khuech dai B = pa_a1
+pa_a1 = np.sqrt(Ptx)/cw_Arms  # (var) Cac he so khuech dai dien ap
 pa_a2 = pa_a1/10        # cua bo PA bi phi tuyen
-pa_a3 = pa_a1/100       # (Tham khao bai tap) Ptx = 5W -> pa_a1*Arms^2 = Ptx
-                                # pa_a1~5 lan, chon pa_a2 = 1/10pa_a1, pa_a3 = 1/100pa_a1
+pa_a3 = pa_a1/10        # 
+
 
 # FIR BPF
-bpf_order = 50          # (tu chon) Bac cua bo loc FIR tuyen tinh
+bpf_order = 500         # (tu chon) Bac cua bo loc FIR tuyen tinh
+                        # dieu chinh phu hop tranh group delay qua cao
 
 # Anten phat
 at1_n = 0.6             # (Tham khao bai tap) do hieu qua (0.5 -0.8)
 at1_D = 3               # (Tham khao bai tap) duong kinh anten (m)
 at1_l = (3*10**8)/cw_f  # (Tham khao bai tap) buoc song - wavelength (m)
-at1_G = None            # (depend) cong thuc antenna Gain
+at1_G = None            # (depend) cong thuc antenna Gain (lan hoac dB)
 
 #  rain loss
 rl_a = 3                # (Tham khao bai tap) he so suy hao do mua (3dB/Km - vietnam)
@@ -99,10 +104,11 @@ rl_Dr = None            # (depend) cu li chiu mua - km
 #  path loss
 pl_d = 35786            # (const) khoang cach tram phat - ve tinh - Km
 
-
-# System_margin
-
 # Rician fading
+rif_K = 10              # Rician factor = PLOS/PNLOS
+                        # K = A^2/o^2
+                        # A la bien do tai dien xet fading
+                        # o la phuong sai nhieu (do song phan xa)
 
 # Thermal noise dau vao may thu
 thn_T = None            # (random) Bien ngau nhien nhieu nhiet - K
