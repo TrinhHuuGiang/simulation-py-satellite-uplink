@@ -9,7 +9,7 @@ import a1_global_specific_data as gd
 '''*************************************************************
 * code
 *************************************************************'''
-def linear_FIR_BPF(t, wQPSK_af_pa):
+def linear_FIR_BPF(wQPSK_af_pa):
     """
     Linear FIR Bandpass filter 
 
@@ -30,14 +30,7 @@ def linear_FIR_BPF(t, wQPSK_af_pa):
     # Apply linear filter
     wQPSK_af_BPF = signal.lfilter(FIR_bp_filter, 1.0, wQPSK_af_pa)
 
-    # Tinh cong suat trung binh
-    total_sample = len(t)
-    average_Ptx = 0
-    for i in range(total_sample):
-        average_Ptx += wQPSK_af_BPF[i]**2
-    average_Ptx /= total_sample
-
-    return wQPSK_af_BPF, FIR_bp_filter, average_Ptx
+    return wQPSK_af_BPF, FIR_bp_filter
 
 def plot_FIR_Hf(FIR_bp_filter):
     # Frequency response visualization
@@ -60,7 +53,7 @@ def plot_FIR_Hf(FIR_bp_filter):
 
 
 
-def plot_BPF_wQPSK(t, wQPSK_af_BPF, average_Ptx):
+def plot_BPF_wQPSK(t, wQPSK_af_BPF):
     '''
     Plot QPSK wave after BPF
     '''
@@ -72,7 +65,7 @@ def plot_BPF_wQPSK(t, wQPSK_af_BPF, average_Ptx):
 
     # [plot wQPSK_af_BPF]
     plt.subplot(3,2,6) # 3 hang 2 cot, vi tri 6
-    plt.title("BPF|order {}|ever_Ptx {:.3}W".format(gd.bpf_order, average_Ptx))
+    plt.title("BPF|order {}".format(gd.bpf_order))
     plt.plot(t[:num_sample], wQPSK_af_BPF[:num_sample])
     plt.xlabel("(s)")
     plt.ylabel("(Volt)")

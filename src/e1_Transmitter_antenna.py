@@ -9,11 +9,29 @@ import a1_global_specific_data as gd
 '''*************************************************************
 * code
 *************************************************************'''
-def Gain_ant_para_1(wQPSK_af_BPF):
+def Gain_ant_para_1(t, wQPSK_af_BPF):
     '''
     Transmitter antenna
+    - loss by cable
+    - gain by anten
+    - EIRP
     '''
-    # anh huong Gain len tin hieu
-    wt_af_at1 = wQPSK_af_BPF*np.sqrt(gd.at1_G)
+    # Tinh cong suat phat trung binh
+    total_sample = len(t)
+    Ptx_real = 0
+    for i in range(total_sample):
+        Ptx_real += wQPSK_af_BPF[i]**2
+    Ptx_real /= total_sample
 
-    return wt_af_at1
+    # anh huong cua suy hao cap noi
+    # anh huong Gain len tin hieu
+    wt_af_at1 = wQPSK_af_BPF*np.sqrt(gd.at1_G*gd.cable_loss)
+
+    # (dB) Ptx,cable, anten1 Gain, EIRP
+    dB_Ptx = 10*np.log10(Ptx_real)
+    dB_cable_loss = 10*np.log10(gd.cable_loss)
+    dB_at1_G = 10*np.log10(gd.at1_G)
+    dB_EIRP = dB_Ptx - dB_cable_loss + dB_at1_G
+
+    return wt_af_at1, dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP
+

@@ -26,12 +26,6 @@ import numpy as np               # mang, ham toan hoc
 fig1 = plt.figure() #plot signal before modulating
 fig2 = plt.figure() #plot waveform after modulated
 fig3 = plt.figure() #plot waveform after transmit
-# x = [1, 2, 3, 4, 5]
-# y = [1, 4, 9, 16, 25]
-
-# plt.plot(x,y)
-
-# plt.show()
 
 # so luong can mo phong
 num_src_bit = 20        # Mo phong mot so lan bi nguon
@@ -74,9 +68,8 @@ rc_a = 0.66             # (tu chon) He so cat 0< a < 1
                                 # a->1: giam ISI, tang pho tan
                                 # a->0: tang ISI, giam pho tan
 
-
 # Power Amplifier
-Ptx = 5                 # (Tham khao bai tap) Ptx = 5W
+Ptx = 5                 # (Tham khao bai tap) Ptx = 5W ~ 7dB
                         #-> (pa_a1*Arms)^2 = Ptx voi dieu kien pa_a2,pa_a3 << pa_a1
                         # va he so khuech dai B = pa_a1
 pa_a1 = np.sqrt(Ptx)/cw_Arms  # (var) Cac he so khuech dai dien ap
@@ -87,6 +80,9 @@ pa_a3 = pa_a1/10        #
 # FIR BPF
 bpf_order = 500         # (tu chon) Bac cua bo loc FIR tuyen tinh
                         # dieu chinh phu hop tranh group delay qua cao
+
+# Suy hao cap noi antenna phat
+cable_loss = 2          # lan ~ -3dB
 
 # Anten phat
 at1_n = 0.6             # (Tham khao bai tap) do hieu qua (0.5 -0.8)
@@ -113,3 +109,5 @@ rif_K = 10              # Rician factor = PLOS/PNLOS
 # Thermal noise dau vao may thu
 thn_T = None            # (random) Bien ngau nhien nhieu nhiet - K
 thn_k = 1.38*10**(-23)  # (const) hang so boltzman
+
+
