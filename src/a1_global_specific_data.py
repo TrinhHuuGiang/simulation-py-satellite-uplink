@@ -36,9 +36,8 @@ num_src_symbol = 10     # Mo phong mot so lan ky tu (tin hieu I|Q) ma hoa PNRZ
 num_rcos_order = 3      # Mo phong mot so lan chu ky symbol cua dap ung xung h(t) bo loc
 num_mod_symbol = 10     # Mo phong so chu ky song da qua dieu che QPSK
                                 # tuong duong mot so lan ky tu
-num_rician_symbol = 10  # Mo phong so chy ky song chia tac dong fading
-                                # tuong duong mot vai ky tu
-
+num_rician_symbol = 10  # Mo phong vai chy ky song chiu tac dong fading
+                        
 # Dieu che song
 cw_f = 14*10**9          # (var) Tan so song mang (14Ghz cho uplink GEO)
                                 # thay doi theo bang Ku uplink: 14 - 14.5 Ghz

@@ -33,9 +33,6 @@ def rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace):
     # -> K = K*Ptotal/( (K+1)*2*o^2 )
     # -> Ptotal/( (K+1)*2 ) = o^2
     gd.rif_var = Ptotal / (2*(gd.rif_K + 1))
-
-    print(f"K={gd.rif_K}, rif_var={gd.rif_var}, Ptotal={Ptotal}")
-
     
     # Tin hieu LOS
     # Ptotal / PLOS = (K+1)/K -> Atotal / ALOS = sqrt( K+1/(K))
@@ -45,8 +42,8 @@ def rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace):
     # sinh các bien ngau nhien Gaussian tu cac thanh phan I va Q
     total_sample = len(wt_LOS)
     # Tạo 2 mảng ngẫu nhiên có độ dài bằng len(wt_LOS)
-    X1 = np.random.normal(0, gd.rif_var, total_sample)  # Mảng ngẫu nhiên X1
-    X2 = np.random.normal(0, gd.rif_var, total_sample)  # Mảng ngẫu nhiên X2
+    X1 = np.random.normal(0, 1, total_sample)  # Mảng ngẫu nhiên X1
+    X2 = np.random.normal(0, 1, total_sample)  # Mảng ngẫu nhiên X2
     
     # LOS chiu fading
     wt_NLOS = np.sqrt(2*gd.rif_var) * (X1 + 1j * X2)
@@ -66,7 +63,7 @@ def plot_rician_fading(t, wt_af_fading):
 
     # [plot wQPSK_af_BPF]
     plt.subplot(3,2,1) # 3 hang 2 cot, vi tri 1
-    plt.title("Rician fading")
+    plt.title("Rician fading| {} wave first".format(gd.num_rician_symbol))
     plt.plot(t[:num_sample], wt_af_fading[:num_sample])
     plt.xlabel("(s)")
     plt.ylabel("(Volt)")
