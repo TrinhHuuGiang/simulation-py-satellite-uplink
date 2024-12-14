@@ -39,7 +39,7 @@ def plot_wave_af_receiver_ant2_cable_loss(t, wt_af_at2):
     # [plot signal]
     plt.subplot(3,2,3) # 3 hang 2 cot, vi tri 3
     plt.title("Wave received (Grx, cable loss)")
-    plt.plot(t[:num_sample], wt_af_at2[:num_sample].real)
+    plt.plot(t[:num_sample], wt_af_at2[:num_sample])
     plt.xlabel("(s)")
     plt.ylabel("(Volt)")
 

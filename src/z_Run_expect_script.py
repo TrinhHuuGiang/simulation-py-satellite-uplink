@@ -4,6 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from a1_global_specific_data import N_bit
 from a1_sub_function import sequence_calculate
 from b1_GenBit_PNRZ_IQsplit import RandBit_PNRZ_IQsplit, plot_Bit_and_Symbol
 from b2_Time_division import time_and_signal_div
@@ -17,6 +18,10 @@ from f2_Freespace_loss import freespace_loss
 from g1_Rician_fading import rician_fading, plot_rician_fading
 from h1_Receiver_antenna import Gain_ant_para_2, plot_wave_af_receiver_ant2_cable_loss
 from i1_LNA import Low_Noise_Amplifier, plot_LNA_wave
+from j1_QPSK_Demodulation import QPSK_Dedulator
+from k1_LPF import FIR_LPF, plot_DemodQPSK_LPF
+from l1_Comparator import Comparator_signal
+from l2_IQ_merge import Merge_bit_streams
 '''*************************************************************
 * Code
 *************************************************************'''
@@ -90,7 +95,23 @@ wt_af_LNA = Low_Noise_Amplifier(wt_af_at2)
 
 plot_LNA_wave(t, wt_af_LNA)
 
+# QPSK Demodulator
+wI_DEM, wQ_DEM = QPSK_Dedulator(t, wt_af_LNA)
 
+# LPF
+I_signal_LPF, Q_signal_LPF = FIR_LPF(wI_DEM, wQ_DEM)
+
+plot_DemodQPSK_LPF(t,I_signal_LPF, Q_signal_LPF)
+
+# Comparator
+I_bitstream_af_sample, Q_bitstream_af_sample = Comparator_signal(I_signal_LPF, Q_signal_LPF)
+
+# merge
+recover_stream_bit = Merge_bit_streams(I_bitstream_af_sample, Q_bitstream_af_sample)
+
+
+
+# print
 print("Ptx: {}\nCable loss: {}\nGain_at1: {}\nEIRP: {}".format(dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP))
 print("Rainloss: {}\nFreespace loss: {}".format(dB_Rainloss, dB_Freespace))
 print("Prx_noloss: {}".format(dB_total_receive))
@@ -98,11 +119,15 @@ print("At2_gain: {}dB\tRX Cable: {}dB".format(dB_at2_G,dB_rx_cable))
 print("Prx_gain_loss: {}dB".format(dB_Prx))
 print("Prx_gain_loss: {}W".format(10**(dB_Prx/10)))
 
+print("Total expect bits: {}".format(N_bit))
+print("I received   bits: {}".format(len(I_bitstream_af_sample)))
+print("Q received   bits: {}".format(len(Q_bitstream_af_sample)))
 
 
 
-
-
+print("2 bit stream matched" if (bitstream == recover_stream_bit).all() else "does not match") 
+print("Rand bit: {}".format(bitstream[:10]))
+print("Recv bit: {}".format(recover_stream_bit[:10]))
 
 
 # plt.show sau khi da ve xong

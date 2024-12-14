@@ -80,6 +80,7 @@ pa_a3 = pa_a1/10        #
 # FIR BPF
 bpf_order = 100         # (tu chon) Bac cua bo loc FIR tuyen tinh
                         # dieu chinh phu hop tranh group delay qua cao
+                        # (di kem) Dung luon cho loc thong thap o dau thu
 
 # Suy hao cap noi antenna phat va thu
 cable_loss = 2          # lan ~ -3dB

@@ -46,7 +46,7 @@ def rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace):
     X2 = np.random.normal(0, 1, total_sample)  # Mảng ngẫu nhiên X2
     
     # LOS chiu fading
-    wt_NLOS = np.sqrt(2*gd.rif_var) * (X1 + 1j * X2)
+    wt_NLOS = np.sqrt(2*gd.rif_var) * (X1 + X2) # ly thuyet (X1 + jX2), cong luon X2 vi tin hieu QPSK ta tong 2 pha luon roi
     wt_af_fading = wt_LOS + wt_NLOS
 
     return dB_total_receive, wt_af_fading
@@ -64,7 +64,7 @@ def plot_rician_fading(t, wt_af_fading):
     # [plot wQPSK_af_BPF]
     plt.subplot(3,2,1) # 3 hang 2 cot, vi tri 1
     plt.title("Rician fading| {} wave first".format(gd.num_rician_symbol))
-    plt.plot(t[:num_sample], wt_af_fading[:num_sample].real)
+    plt.plot(t[:num_sample], wt_af_fading[:num_sample])
     plt.xlabel("(s)")
     plt.ylabel("(Volt)")
 

@@ -15,7 +15,7 @@ def time_and_signal_div(Istream, Qstream):
     - Lay mau tin hieu theo tan so lay mau song mang cw_fs
     '''
     # lay mau tin hieu theo tan so lay mau song mang
-    sI_reshape = np.ravel(np.tile(Istream, (gd.N_sample_1sb, 1)),order='F')
+    sI_reshape = np.ravel(np.tile(Istream, (gd.N_sample_1sb, 1)),order='F') # order F lay theo cot
     sQ_reshape = np.ravel(np.tile(Qstream, (gd.N_sample_1sb, 1)),order='F')
 
     # time axis - gioi han boi so bit
