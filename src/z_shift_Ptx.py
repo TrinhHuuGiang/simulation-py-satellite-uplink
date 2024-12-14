@@ -16,8 +16,8 @@ from e1_Transmitter_antenna import Gain_ant_para_1
 from f1_Rain_loss import rain_loss
 from f2_Freespace_loss import freespace_loss
 from g1_Rician_fading import rician_fading
-from g2_Thermal_noise import thermal_noise
 from h1_Receiver_antenna import Gain_ant_para_2
+from h2_Thermal_noise import thermal_noise
 from i1_LNA import Low_Noise_Amplifier
 from j1_QPSK_Demodulation import QPSK_Dedulator
 from k1_LPF import FIR_LPF
@@ -63,14 +63,15 @@ def repeat_log(order):
     # Rician fading
     dB_total_fading, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace)
 
-    # Thermal noise
-    wt_af_thermal, dB_total_receive, dB_C_N = thermal_noise(wt_af_fading)
+    # Receiver antenna
+    wt_af_at2, dB_at2_G, dB_total_after_ant2 = Gain_ant_para_2(wt_af_fading, dB_total_fading)
 
-    # Receiver antenna (tam thoi dung after fading)
-    wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_thermal)
+    # Thermal noise
+    wt_af_thermal, dB_total_receive, dB_C_N, dB_SNR = thermal_noise(wt_af_at2, dB_total_after_ant2)
 
     # LNA
-    wt_af_LNA = Low_Noise_Amplifier(wt_af_at2)
+    wt_af_LNA, dB_Prx, dB_rx_cable = Low_Noise_Amplifier(wt_af_thermal, dB_total_receive)
+
 
     # QPSK Demodulator
     wI_DEM, wQ_DEM = QPSK_Dedulator(t, wt_af_LNA)
@@ -86,9 +87,9 @@ def repeat_log(order):
 
     bit_err_rate = BER(bitstream, recover_stream_bit)
 
-    return dB_Ptx, bit_err_rate, dB_C_N
+    return dB_Ptx, bit_err_rate, dB_C_N, dB_SNR
 
-def plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map):
+def plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map, SNR_map):
     plt.figure() # tao plot figure
 
     # ************  Ptx - BER  *************
@@ -113,6 +114,15 @@ def plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map):
     # danh dau lai truc hoanh
     # plt.xticks(Ptx_map)
 
+    # ************  Ptx - SRN  *************
+    plt.subplot(3,1,3)
+    plt.title("Ptx - SNR")
+    plt.plot(Ptx_map, SNR_map)
+    plt.ylabel("SNR (dB)")
+    plt.xlabel("Ptx (dB)")
+    # danh dau lai truc hoanh
+    # plt.xticks(Ptx_map)
+
     # can chinh lai cac do thi
     plt.tight_layout() # tu dong can lai khoang cach cac do thi
 
@@ -124,22 +134,25 @@ Arms_map = np.linspace(0.01,5,num_sim)
 Ptx_map = []
 BER_map = []
 C_N_map = []
+SNR_map = []
 
 for A in Arms_map: # thuc hien 100 lan
     gd.cw_Arms = A # thay doi global Arms - bien do song mang
 
-    dB_Ptx, bit_err_rate, dB_C_N = repeat_log(2)
+    dB_Ptx, bit_err_rate, dB_C_N ,dB_SNR= repeat_log(2)
     Ptx_map.append(dB_Ptx)
     BER_map.append(bit_err_rate)
     C_N_map.append(dB_C_N)
+    SNR_map.append(dB_SNR)
 
     print("\n","-"*10,"[Arms = {:.6}V]".format(gd.cw_Arms),"-"*10)
     print("Ptx: {:.6}dB".format(dB_Ptx))
     print("BER: {}%".format(bit_err_rate))
     print("C_N: {:.6}dB".format(dB_C_N))
+    print("SNR: {:.6}dB".format(dB_SNR))
     
 
-plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map)
+plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map, SNR_map)
 
 # plt.show sau khi da ve xong
 # sau khi dong cac cua so figure, cac doi tuong fig1, fig2,... cung bi xoa

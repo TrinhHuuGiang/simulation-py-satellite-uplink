@@ -15,8 +15,8 @@ from e1_Transmitter_antenna import Gain_ant_para_1
 from f1_Rain_loss import rain_loss
 from f2_Freespace_loss import freespace_loss
 from g1_Rician_fading import rician_fading, plot_rician_fading
-from g2_Thermal_noise import thermal_noise, plot_wave_after_thermal_noise
-from h1_Receiver_antenna import Gain_ant_para_2, plot_wave_af_receiver_ant2_cable_loss
+from h1_Receiver_antenna import Gain_ant_para_2, plot_wave_af_receiver_ant2
+from h2_Thermal_noise import thermal_noise, plot_wave_after_thermal_noise
 from i1_LNA import Low_Noise_Amplifier, plot_LNA_wave
 from j1_QPSK_Demodulation import QPSK_Dedulator
 from k1_LPF import FIR_LPF, plot_DemodQPSK_LPF
@@ -74,19 +74,18 @@ dB_total_fading, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace
 
 plot_rician_fading(t, wt_af_fading)
 
+# Receiver antenna
+wt_af_at2, dB_at2_G, dB_total_after_ant2 = Gain_ant_para_2(wt_af_fading, dB_total_fading)
 
-# Thermal noise [bo sung sau]
-wt_af_thermal, dB_total_receive , dB_C_N = thermal_noise(wt_af_fading)
+plot_wave_af_receiver_ant2(t, wt_af_at2)
+
+# Thermal noise
+wt_af_thermal, dB_total_receive, dB_C_N, dB_SNR = thermal_noise(wt_af_at2, dB_total_after_ant2)
 
 plot_wave_after_thermal_noise(t, wt_af_thermal, dB_C_N)
 
-# Receiver antenna (tam thoi dung after fading)
-wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_thermal)
-
-plot_wave_af_receiver_ant2_cable_loss(t, wt_af_at2)
-
 # LNA
-wt_af_LNA = Low_Noise_Amplifier(wt_af_at2)
+wt_af_LNA, dB_Prx, dB_rx_cable = Low_Noise_Amplifier(wt_af_thermal, dB_total_receive)
 
 plot_LNA_wave(t, wt_af_LNA)
 
@@ -112,10 +111,10 @@ print("Ptx: {:.5}dB\nCable loss: {:.5}dB\nGain_at1: {:.5}dB\nEIRP: {:.5}dB".form
 print("-"*20)
 print("Rainloss: {:.5}dB\nFreespace loss: {:.5}dB".format(dB_Rainloss, dB_Freespace))
 print("Pwave after fading: {:.5}dB".format(dB_total_fading))
-print("Pwave after thermal: {:.5}dB".format(dB_total_receive))
 
 print("-"*20)
 print("At2_gain: {:.5}dB\tRX Cable: {:.5}dB".format(dB_at2_G,dB_rx_cable))
+print("Pwave after thermal: {:.5}dB".format(dB_total_receive))
 print("Prx_after_gain_loss: {:.5}dB".format(dB_Prx))
 print("Prx_after_gain_loss: {:.5}W".format(10**(dB_Prx/10)))
 

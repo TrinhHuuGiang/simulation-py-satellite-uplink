@@ -9,10 +9,10 @@ import a1_global_specific_data as gd
 '''*************************************************************
 * code
 *************************************************************'''
-def thermal_noise(wt_af_fading):
+def thermal_noise(wt_af_at2, dB_total_after_ant2):
     '''
     Thermal noise
-    -> C/N
+    -> C/N, SNR
     -> Lay thermal noise theo tai lieu la 290K
     -> Chon khoang dao dong tu 270 den 300K
     '''
@@ -22,14 +22,14 @@ def thermal_noise(wt_af_fading):
     # tao mang T tuan theo Uniform
     T_min = 270
     T_max = 300
-    sample = len(wt_af_fading)
+    sample = len(wt_af_at2)
 
     gd.thn_T = np.random.uniform(T_min, T_max, sample)
 
     # Tap am nhiet anh huong len tin hieu
     N_ther = gd.thn_k * gd.thn_T * gd.cw_Bandreal # Woat
 
-    wt_af_thermal = wt_af_fading + np.sqrt(N_ther)
+    wt_af_thermal = wt_af_at2 + np.sqrt(N_ther)
 
     # Tinh C/N
     aver_Pc = np.mean(wt_af_thermal**2)  # Trung bình công suất tín hiệu
@@ -41,7 +41,21 @@ def thermal_noise(wt_af_fading):
     # Power after all noise, fading
     dB_total_receive = 10*np.log10(aver_Pc)
 
-    return wt_af_thermal, dB_total_receive, dB_C_N
+
+    # Tinh SNR (PLOS, PNLOS, Pn)
+    '''
+    Ptotal = PLOS+PNLOS  = PLOS*(1+1/K) = PNLOS*(1+K)
+    -> PLOS = ( K/(K+1) ) *  Ptotal
+    -> PNLOS = ( 1/(K+1) )  *   Ptotal
+    -> Tinh SNR sau
+    '''
+    Ptotal = (10**(dB_total_after_ant2/10))
+    PLOS = Ptotal*gd.rif_K/(gd.rif_K+1)
+    PNLOS = Ptotal/(gd.rif_K+1)
+    dB_SNR = 10*np.log(PLOS / (PNLOS + aver_Pn )) 
+
+    return wt_af_thermal, dB_total_receive, dB_C_N, dB_SNR
+
 
 def plot_wave_after_thermal_noise(t, wt_af_thermal, dB_C_N):
     '''

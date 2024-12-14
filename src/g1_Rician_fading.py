@@ -25,7 +25,10 @@ def rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace):
     Ptotal = PLOS+PNLOS  = PLOS*(1+1/K) = PNLOS*(1+K)
     -> PLOS = ( K/(K+1) ) *  Ptotal
     -> PNLOS = ( 1/(K+1) )  *   Ptotal
+    -> Tinh SNR sau
     '''
+    dB_PLOS = 10*np.log10(Ptotal*gd.rif_K/(gd.rif_K+1))
+    dB_PNLOS = 10*np.log10(Ptotal*1/(gd.rif_K+1))
 
     # [Rician fading]
     # tinh phuong sai K= A^2/2*o^2 -> o^2
@@ -36,7 +39,6 @@ def rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace):
     
     # Tin hieu LOS
     # Ptotal / PLOS = (K+1)/K -> Atotal / ALOS = sqrt( K+1/(K))
-    
     wt_LOS = wt_af_freespace*np.sqrt(gd.rif_K/(gd.rif_K+1))
 
     # sinh các bien ngau nhien Gaussian tu cac thanh phan I va Q

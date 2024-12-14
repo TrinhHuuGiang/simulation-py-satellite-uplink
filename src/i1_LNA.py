@@ -9,16 +9,21 @@ import a1_global_specific_data as gd
 * code
 *************************************************************'''
 
-def Low_Noise_Amplifier(wt_af_at2):
+def Low_Noise_Amplifier(wt_af_thermal, dB_total_receive):
     '''
     Cho tin hieu nhan qua LNA
+    - loss by cable
+    - Prx
     - Tin hieu ra khuech dai manh
     - Meo dang khong dang ke
     '''
-    # tinh toan tac dong LNA len tin hieu
-    wt_af_LNA = gd.LNA_a1*wt_af_at2 + gd.LNA_a2*wt_af_at2**2 + gd.LNA_a3*wt_af_at2**3
+    dB_rx_cable =  10*np.log10(gd.cable_loss)
+    dB_Prx = dB_total_receive - dB_rx_cable
 
-    return wt_af_LNA
+    # tinh toan tac dong LNA len tin hieu
+    wt_af_LNA = gd.LNA_a1*wt_af_thermal + gd.LNA_a2*wt_af_thermal**2 + gd.LNA_a3*wt_af_thermal**3
+
+    return wt_af_LNA, dB_Prx, dB_rx_cable
 
 def plot_LNA_wave(t, wt_af_LNA):
     '''

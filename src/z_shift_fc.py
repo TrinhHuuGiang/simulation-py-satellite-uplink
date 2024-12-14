@@ -16,8 +16,8 @@ from e1_Transmitter_antenna import Gain_ant_para_1
 from f1_Rain_loss import rain_loss
 from f2_Freespace_loss import freespace_loss
 from g1_Rician_fading import rician_fading
-from g2_Thermal_noise import thermal_noise
 from h1_Receiver_antenna import Gain_ant_para_2
+from h2_Thermal_noise import thermal_noise
 from i1_LNA import Low_Noise_Amplifier
 from j1_QPSK_Demodulation import QPSK_Dedulator
 from k1_LPF import FIR_LPF
@@ -63,14 +63,14 @@ def repeat_log(order):
     # Rician fading
     dB_total_fading, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace)
 
-    # Thermal noise
-    wt_af_thermal, dB_total_receive, dB_C_N = thermal_noise(wt_af_fading)
+    # Receiver antenna
+    wt_af_at2, dB_at2_G, dB_total_after_ant2 = Gain_ant_para_2(wt_af_fading, dB_total_fading)
 
-    # Receiver antenna (tam thoi dung after fading)
-    wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_thermal)
+    # Thermal noise
+    wt_af_thermal, dB_total_receive, dB_C_N, dB_SNR = thermal_noise(wt_af_at2, dB_total_after_ant2)
 
     # LNA
-    wt_af_LNA = Low_Noise_Amplifier(wt_af_at2)
+    wt_af_LNA, dB_Prx, dB_rx_cable = Low_Noise_Amplifier(wt_af_thermal, dB_total_receive)
 
     # QPSK Demodulator
     wI_DEM, wQ_DEM = QPSK_Dedulator(t, wt_af_LNA)
@@ -86,9 +86,9 @@ def repeat_log(order):
 
     bit_err_rate = BER(bitstream, recover_stream_bit)
 
-    return bit_err_rate, dB_C_N
+    return bit_err_rate, dB_C_N, dB_SNR
 
-def plot_fc_expected_value(fc_map, BER_map, C_N_map):
+def plot_fc_expected_value(fc_map, BER_map, C_N_map, SNR_map):
     plt.figure() # tao plot figure
 
     # ************  f - BER  *************
@@ -113,6 +113,15 @@ def plot_fc_expected_value(fc_map, BER_map, C_N_map):
     # danh dau lai truc hoanh
     # plt.xticks(fc_map)
 
+    # ************  f - SRN  *************
+    plt.subplot(3,1,3)
+    plt.title("Carrier frequency - SNR")
+    plt.plot(fc_map, SNR_map)
+    plt.ylabel("SNR (dB)")
+    plt.xlabel("(Ghz)")
+    # danh dau lai truc hoanh
+    # plt.xticks(fc_map)
+
     # can chinh lai cac do thi
     plt.tight_layout() # tu dong can lai khoang cach cac do thi
 
@@ -123,19 +132,22 @@ num_sim = 50
 fc_map = np.linspace(12*(10**9), 16*(10**9), num_sim)
 BER_map = []
 C_N_map = []
+SNR_map = []
 
 for f in fc_map: # thuc hien 25 lan
     gd.cw_f = f # thay doi global fc - tan so song mang
-    bit_err_rate, dB_C_N = repeat_log(1)
+    bit_err_rate, dB_C_N, dB_SNR = repeat_log(1)
     BER_map.append(bit_err_rate)
     C_N_map.append(dB_C_N)
+    SNR_map.append(dB_SNR)
     
     print("\n","-"*10,"[fc = {}]".format(gd.cw_f),"-"*10)
     print("BER: {}%".format(bit_err_rate))
     print("C_N: {:.6}dB".format(dB_C_N))
+    print("SNR: {:.6}dB".format(dB_SNR))
     
 
-plot_fc_expected_value(fc_map, BER_map, C_N_map)
+plot_fc_expected_value(fc_map, BER_map, C_N_map, SNR_map)
 
 # plt.show sau khi da ve xong
 # sau khi dong cac cua so figure, cac doi tuong fig1, fig2,... cung bi xoa
