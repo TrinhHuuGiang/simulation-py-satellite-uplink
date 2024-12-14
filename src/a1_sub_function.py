@@ -63,12 +63,19 @@ def calculate_rain_tolerance_distance():
     '''
     gd.rl_Dr = (gd.rl_hr-gd.rl_ha)/np.sin(gd.rl_e*np.pi/180)
 
+def calculate_Antenna_receive_gain():
+    '''
+    Gain of receive atenna
+    '''
+    # gain (lan cong suat)
+    gd.at2_G = gd.at2_n*(np.pi * gd.at2_D / gd.at2_l)**2
+
 def sequence_calculate():
     calculate_bit_rate_and_Bandreal()
     calculate_f_nyquist()
     calculate_Antenna_trans_gain()
     calculate_rain_tolerance_distance()
-
+    calculate_Antenna_receive_gain()
 
     # Log essential data
     print("\n","-"*10,"[fc = {}]".format(gd.cw_f),"-"*10)
@@ -81,3 +88,4 @@ def sequence_calculate():
         gd.rc_fnq,
         gd.at1_G,
         gd.rl_Dr))
+    print("Gain ant rx: {:.3} lan".format(gd.at2_G))

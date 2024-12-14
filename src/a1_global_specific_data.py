@@ -81,7 +81,7 @@ pa_a3 = pa_a1/10        #
 bpf_order = 100         # (tu chon) Bac cua bo loc FIR tuyen tinh
                         # dieu chinh phu hop tranh group delay qua cao
 
-# Suy hao cap noi antenna phat
+# Suy hao cap noi antenna phat va thu
 cable_loss = 2          # lan ~ -3dB
 
 # Anten phat
@@ -112,3 +112,14 @@ thn_T = None            # (random) Bien ngau nhien nhieu nhiet - K
 thn_k = 1.38*10**(-23)  # (const) hang so boltzman
 
 
+# Anten thu
+at2_n = 0.6             # (Tham khao bai tap) do hieu qua (0.5 -0.8)
+at2_D = 2               # (Tham khao bai tap) duong kinh anten (m)
+at2_l = (3*10**8)/cw_f  # (Tham khao bai tap) buoc song - wavelength (m)
+at2_G = None            # (depend) cong thuc antenna Gain (lan hoac dB)
+
+
+# Power Amplifier
+LNA_a1 = 1000000         # Khoang 60dB
+LNA_a2 = pa_a1/100       # de LNA gan tuyen tinh, lay a2, a3 rat nho
+LNA_a3 = pa_a1/1000      # 

@@ -2,6 +2,7 @@
 * Lib
 *************************************************************'''
 import matplotlib.pyplot as plt
+import numpy as np
 
 from a1_sub_function import sequence_calculate
 from b1_GenBit_PNRZ_IQsplit import RandBit_PNRZ_IQsplit, plot_Bit_and_Symbol
@@ -14,6 +15,8 @@ from e1_Transmitter_antenna import Gain_ant_para_1
 from f1_Rain_loss import rain_loss
 from f2_Freespace_loss import freespace_loss
 from g1_Rician_fading import rician_fading, plot_rician_fading
+from h1_Receiver_antenna import Gain_ant_para_2, plot_wave_af_receiver_ant2_cable_loss
+from i1_LNA import Low_Noise_Amplifier, plot_LNA_wave
 '''*************************************************************
 * Code
 *************************************************************'''
@@ -66,9 +69,41 @@ dB_total_receive, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespac
 
 plot_rician_fading(t, wt_af_fading)
 
+
+# Thermal noise [bo sung sau]
+
+
+# Receiver antenna (tam thoi dung after fading)
+wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_fading)
+
+plot_wave_af_receiver_ant2_cable_loss(t, wt_af_at2)
+
+# sim = len(t)
+# total = 0
+# for i in range(sim):
+#     total += (wt_af_at2[i].real)**2 + (wt_af_at2[i].imag)**2
+# total /= sim
+# print("///  total Prx ={}  ///".format(10*np.log10(total)))   
+
+# LNA
+wt_af_LNA = Low_Noise_Amplifier(wt_af_at2)
+
+plot_LNA_wave(t, wt_af_LNA)
+
+
 print("Ptx: {}\nCable loss: {}\nGain_at1: {}\nEIRP: {}".format(dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP))
 print("Rainloss: {}\nFreespace loss: {}".format(dB_Rainloss, dB_Freespace))
-print("Prx: {}".format(dB_total_receive))
+print("Prx_noloss: {}".format(dB_total_receive))
+print("At2_gain: {}dB\tRX Cable: {}dB".format(dB_at2_G,dB_rx_cable))
+print("Prx_gain_loss: {}dB".format(dB_Prx))
+print("Prx_gain_loss: {}W".format(10**(dB_Prx/10)))
+
+
+
+
+
+
+
 
 # plt.show sau khi da ve xong
 # sau khi dong cac cua so figure, cac doi tuong fig1, fig2,... cung bi xoa

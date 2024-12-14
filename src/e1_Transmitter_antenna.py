@@ -25,7 +25,7 @@ def Gain_ant_para_1(t, wQPSK_af_BPF):
 
     # anh huong cua suy hao cap noi
     # anh huong Gain len tin hieu
-    wt_af_at1 = wQPSK_af_BPF*np.sqrt(gd.at1_G*gd.cable_loss)
+    wt_af_at1 = wQPSK_af_BPF*np.sqrt(gd.at1_G/gd.cable_loss)
 
     # (dB) Ptx,cable, anten1 Gain, EIRP
     dB_Ptx = 10*np.log10(Ptx_real)

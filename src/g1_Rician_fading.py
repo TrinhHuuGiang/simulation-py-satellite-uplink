@@ -64,7 +64,7 @@ def plot_rician_fading(t, wt_af_fading):
     # [plot wQPSK_af_BPF]
     plt.subplot(3,2,1) # 3 hang 2 cot, vi tri 1
     plt.title("Rician fading| {} wave first".format(gd.num_rician_symbol))
-    plt.plot(t[:num_sample], wt_af_fading[:num_sample])
+    plt.plot(t[:num_sample], wt_af_fading[:num_sample].real)
     plt.xlabel("(s)")
     plt.ylabel("(Volt)")
 
