@@ -2,7 +2,6 @@
 * Lib
 *************************************************************'''
 import matplotlib.pyplot as plt
-import numpy as np
 
 from a1_global_specific_data import N_bit
 from a1_sub_function import sequence_calculate
@@ -16,6 +15,7 @@ from e1_Transmitter_antenna import Gain_ant_para_1
 from f1_Rain_loss import rain_loss
 from f2_Freespace_loss import freespace_loss
 from g1_Rician_fading import rician_fading, plot_rician_fading
+from g2_Thermal_noise import thermal_noise, plot_wave_after_thermal_noise
 from h1_Receiver_antenna import Gain_ant_para_2, plot_wave_af_receiver_ant2_cable_loss
 from i1_LNA import Low_Noise_Amplifier, plot_LNA_wave
 from j1_QPSK_Demodulation import QPSK_Dedulator
@@ -70,25 +70,20 @@ dB_Rainloss, wt_af_rl = rain_loss(wt_af_at1)
 dB_Freespace, wt_af_freespace = freespace_loss(wt_af_rl)
 
 # Rician fading
-dB_total_receive, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace)
+dB_total_fading, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace)
 
 plot_rician_fading(t, wt_af_fading)
 
 
 # Thermal noise [bo sung sau]
+wt_af_thermal, dB_total_receive , dB_C_N = thermal_noise(wt_af_fading)
 
+plot_wave_after_thermal_noise(t, wt_af_thermal, dB_C_N)
 
 # Receiver antenna (tam thoi dung after fading)
-wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_fading)
+wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_thermal)
 
 plot_wave_af_receiver_ant2_cable_loss(t, wt_af_at2)
-
-# sim = len(t)
-# total = 0
-# for i in range(sim):
-#     total += (wt_af_at2[i].real)**2 + (wt_af_at2[i].imag)**2
-# total /= sim
-# print("///  total Prx ={}  ///".format(10*np.log10(total)))   
 
 # LNA
 wt_af_LNA = Low_Noise_Amplifier(wt_af_at2)
@@ -113,19 +108,23 @@ bit_err_rate = BER(bitstream, recover_stream_bit)
 
 
 # print
-print("Ptx: {}\nCable loss: {}\nGain_at1: {}\nEIRP: {}".format(dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP))
-print("Rainloss: {}\nFreespace loss: {}".format(dB_Rainloss, dB_Freespace))
-print("Prx_noloss: {}".format(dB_total_receive))
-print("At2_gain: {}dB\tRX Cable: {}dB".format(dB_at2_G,dB_rx_cable))
-print("Prx_gain_loss: {}dB".format(dB_Prx))
-print("Prx_gain_loss: {}W".format(10**(dB_Prx/10)))
+print("Ptx: {:.5}dB\nCable loss: {:.5}dB\nGain_at1: {:.5}dB\nEIRP: {:.5}dB".format(dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP))
+print("-"*20)
+print("Rainloss: {:.5}dB\nFreespace loss: {:.5}dB".format(dB_Rainloss, dB_Freespace))
+print("Pwave after fading: {:.5}dB".format(dB_total_fading))
+print("Pwave after thermal: {:.5}dB".format(dB_total_receive))
 
+print("-"*20)
+print("At2_gain: {:.5}dB\tRX Cable: {:.5}dB".format(dB_at2_G,dB_rx_cable))
+print("Prx_after_gain_loss: {:.5}dB".format(dB_Prx))
+print("Prx_after_gain_loss: {:.5}W".format(10**(dB_Prx/10)))
+
+print("-"*20)
 print("Total expect bits: {}".format(N_bit))
 print("I received   bits: {}".format(len(I_bitstream_af_sample)))
 print("Q received   bits: {}".format(len(Q_bitstream_af_sample)))
 
-
-
+print("-"*20)
 print("2 bit stream matched" if (bitstream == recover_stream_bit).all() else "does not match") 
 print("Rand bit: {}".format(bitstream[:10]))
 print("Recv bit: {}".format(recover_stream_bit[:10]))

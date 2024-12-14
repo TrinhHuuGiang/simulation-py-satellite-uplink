@@ -2,6 +2,7 @@
 * Lib
 *************************************************************'''
 import matplotlib.pyplot as plt
+import numpy as np
 
 import a1_global_specific_data as gd
 from a1_sub_function import sequence_calculate, recalculate_when_shift_value
@@ -15,6 +16,7 @@ from e1_Transmitter_antenna import Gain_ant_para_1
 from f1_Rain_loss import rain_loss
 from f2_Freespace_loss import freespace_loss
 from g1_Rician_fading import rician_fading
+from g2_Thermal_noise import thermal_noise
 from h1_Receiver_antenna import Gain_ant_para_2
 from i1_LNA import Low_Noise_Amplifier
 from j1_QPSK_Demodulation import QPSK_Dedulator
@@ -24,9 +26,9 @@ from l2_IQ_merge import Merge_bit_streams, BER
 '''*************************************************************
 * Code
 *************************************************************'''
-def repeat_log():
+def repeat_log(order):
     # calculate global variable
-    recalculate_when_shift_value(1)
+    recalculate_when_shift_value(order)
 
     # calculate global variable
     sequence_calculate()
@@ -59,19 +61,16 @@ def repeat_log():
     dB_Freespace, wt_af_freespace = freespace_loss(wt_af_rl)
 
     # Rician fading
-    dB_total_receive, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace)
+    dB_total_fading, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace)
 
-
-    # Thermal noise [bo sung sau]
-
+    # Thermal noise
+    wt_af_thermal, dB_total_receive, dB_C_N = thermal_noise(wt_af_fading)
 
     # Receiver antenna (tam thoi dung after fading)
-    wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_fading)
+    wt_af_at2, dB_Prx , dB_at2_G, dB_rx_cable = Gain_ant_para_2(dB_total_receive, wt_af_thermal)
 
     # LNA
     wt_af_LNA = Low_Noise_Amplifier(wt_af_at2)
-
-
 
     # QPSK Demodulator
     wI_DEM, wQ_DEM = QPSK_Dedulator(t, wt_af_LNA)
@@ -87,22 +86,32 @@ def repeat_log():
 
     bit_err_rate = BER(bitstream, recover_stream_bit)
 
+    return bit_err_rate, dB_C_N
 
-    print("BER: {}%".format(bit_err_rate))
-    return bit_err_rate
-
-def plot_fc_BER(fc_map, BER_map):
+def plot_fc_expected_value(fc_map, BER_map, C_N_map):
     plt.figure() # tao plot figure
+
+    # ************  f - BER  *************
+    plt.subplot(3,1,1)
     plt.title("Carrier frequency - BER")
     plt.plot(fc_map, BER_map)
     plt.ylabel("(%)")
     plt.xlabel("(Ghz)")
 
     # danh dau lai truc hoanh
-    plt.xticks(fc_map)
+    # plt.xticks(fc_map)
 
     # grid
-    plt.grid()
+    # plt.grid()
+
+    # ************  f - C/N  *************
+    plt.subplot(3,1,2)
+    plt.title("Carrier frequency - C/N")
+    plt.plot(fc_map, C_N_map)
+    plt.ylabel("(dB)")
+    plt.xlabel("(Ghz)")
+    # danh dau lai truc hoanh
+    # plt.xticks(fc_map)
 
     # can chinh lai cac do thi
     plt.tight_layout() # tu dong can lai khoang cach cac do thi
@@ -110,15 +119,23 @@ def plot_fc_BER(fc_map, BER_map):
 '''*************************************************************
 * Script
 *************************************************************'''
-num_sim = 200
-fc_map = range(int(13.75*(10**9)), int(14.5*(10**9)), int(((14.5-13.5)/num_sim)*(10**9)))
+num_sim = 50
+fc_map = np.linspace(12*(10**9), 16*(10**9), num_sim)
 BER_map = []
+C_N_map = []
 
 for f in fc_map: # thuc hien 25 lan
     gd.cw_f = f # thay doi global fc - tan so song mang
-    BER_map.append(repeat_log())
+    bit_err_rate, dB_C_N = repeat_log(1)
+    BER_map.append(bit_err_rate)
+    C_N_map.append(dB_C_N)
+    
+    print("\n","-"*10,"[fc = {}]".format(gd.cw_f),"-"*10)
+    print("BER: {}%".format(bit_err_rate))
+    print("C_N: {:.6}dB".format(dB_C_N))
+    
 
-plot_fc_BER(fc_map, BER_map)
+plot_fc_expected_value(fc_map, BER_map, C_N_map)
 
 # plt.show sau khi da ve xong
 # sau khi dong cac cua so figure, cac doi tuong fig1, fig2,... cung bi xoa

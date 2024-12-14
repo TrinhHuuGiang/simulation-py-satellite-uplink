@@ -37,6 +37,7 @@ num_rcos_order = 3      # Mo phong mot so lan chu ky symbol cua dap ung xung h(t
 num_mod_symbol = 10     # Mo phong so chu ky song da qua dieu che QPSK
                                 # tuong duong mot so lan ky tu
 num_rician_symbol = 10  # Mo phong vai chy ky song chiu tac dong fading
+                        # dung chung voi thermal noise
                         
 # Dieu che song
 cw_f = 14*10**9          # (var) Tan so song mang (14Ghz cho uplink GEO)
@@ -52,7 +53,7 @@ cw_Bandmax = 50*10**6    # (Tham khao tai lieu) Bang thong toi da (Max Bandwidth
 cw_Bandreal = None      # (depend) tinh toan thong qua cong thuc R_sb*(1+rc_a)
 
 # Tin hieu
-N_bit = 100             # (random) So luong bit can mo phong, random du nhieu (lon qua bi crash)
+N_bit = 500             # (random) So luong bit can mo phong, random du nhieu (lon qua bi crash)
 N_sb = N_bit/np.log2(cw_M)  # (random) So luong symbol de dieu che = N_bit/log2(cw_M)
 div_fc_Rs = None        # ty le cw_f/R_sb thuoc N*
 R_sb = None             # (depend) Toc do truyen ky tu (toc do cac dong I|Q trong Qpsk)
@@ -73,15 +74,16 @@ Ptx = 5                 # (Tham khao bai tap) Ptx = 5W ~ 7dB
                         # gia tri nay lam chuan di -> Ptx real chu khong phai cong suat phat thuc
                         #-> (pa_a1*Arms)^2 = Ptx voi dieu kien pa_a2,pa_a3 << pa_a1
                         # va he so khuech dai B = pa_a1
-pa_a1 = np.sqrt(Ptx)/cw_Arms  # (var) Cac he so khuech dai dien ap
+pa_a1 = np.sqrt(Ptx)/cw_Arms  # (const) Cac he so khuech dai dien ap
 pa_a2 = pa_a1/10        # cua bo PA bi phi tuyen
-pa_a3 = pa_a1/10        # 
+pa_a3 = pa_a1/10       # 
 
 
 # FIR BPF
-bpf_order = 100         # (tu chon) Bac cua bo loc FIR tuyen tinh
+bpf_order = 80          # (tu chon) Bac cua bo loc FIR tuyen tinh
                         # dieu chinh phu hop tranh group delay qua cao
                         # (di kem) Dung luon cho loc thong thap o dau thu
+                        # Dung nen thay doi vi no gay lech pha :(
 
 # Suy hao cap noi antenna phat va thu
 cable_loss = 2          # lan ~ -3dB
@@ -103,7 +105,7 @@ rl_Dr = None            # (depend) cu li chiu mua - km
 pl_d = 35786            # (const) khoang cach tram phat - ve tinh - Km
 
 # Rician fading
-rif_K = 0.1             # (Dieu chinh) Rician factor = PLOS/PNLOS
+rif_K = 1             # (Dieu chinh) Rician factor = PLOS/PNLOS
                         # K = A^2/o^2
                         # A la bien do tai diem xet fading
                         # o^2 la phuong sai nhieu (do song phan xa)

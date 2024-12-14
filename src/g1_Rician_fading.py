@@ -18,9 +18,9 @@ def rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace):
     '''
     # cong suat truyen sau suy hao tu do
     # bao gom ca cong suat tin hieu va cong suat fading
-    dB_total_receive = dB_EIRP - dB_Rainloss - dB_Freespace
+    dB_total_fading = dB_EIRP - dB_Rainloss - dB_Freespace
 
-    Ptotal = 10**(dB_total_receive/10)
+    Ptotal = 10**(dB_total_fading/10)
     '''
     Ptotal = PLOS+PNLOS  = PLOS*(1+1/K) = PNLOS*(1+K)
     -> PLOS = ( K/(K+1) ) *  Ptotal
@@ -49,7 +49,7 @@ def rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace):
     wt_NLOS = np.sqrt(2*gd.rif_var) * (X1 + X2) # ly thuyet (X1 + jX2), cong luon X2 vi tin hieu QPSK ta tong 2 pha luon roi
     wt_af_fading = wt_LOS + wt_NLOS
 
-    return dB_total_receive, wt_af_fading
+    return dB_total_fading, wt_af_fading
 
 def plot_rician_fading(t, wt_af_fading):
     '''

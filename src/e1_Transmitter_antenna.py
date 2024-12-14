@@ -17,11 +17,8 @@ def Gain_ant_para_1(t, wQPSK_af_BPF):
     - EIRP
     '''
     # Tinh cong suat phat trung binh
-    total_sample = len(t)
-    Ptx_real = 0
-    for i in range(total_sample):
-        Ptx_real += wQPSK_af_BPF[i]**2
-    Ptx_real /= total_sample
+    Ptx_real = np.mean(wQPSK_af_BPF**2)  # Trung bình công suất tín hiệu
+
 
     # anh huong cua suy hao cap noi
     # anh huong Gain len tin hieu

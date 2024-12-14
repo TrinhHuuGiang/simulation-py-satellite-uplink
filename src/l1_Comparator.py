@@ -17,8 +17,8 @@ def Comparator_signal(I_signal_LPF, Q_signal_LPF):
     # lay mau tin hieu sao 1 khoang thoi gian bang so mau cho 1 tin hieu
     delay_sample = gd.N_sample_1sb//2
 
-    # boi vi tin hieu bi dao pha qua 2 bo loc, nen bit thu duoc bi dao
-    I_bitstream_af_sample = [0 if level > 0 else 1 for level in I_signal_LPF[delay_sample::gd.N_sample_1sb]]
-    Q_bitstream_af_sample = [0 if level > 0 else 1 for level in Q_signal_LPF[delay_sample::gd.N_sample_1sb]]
+    # lay mau va so sanh voi mau lay duoc
+    I_bitstream_af_sample = [1 if level > 0 else 0 for level in I_signal_LPF[delay_sample::gd.N_sample_1sb]]
+    Q_bitstream_af_sample = [1 if level > 0 else 0 for level in Q_signal_LPF[delay_sample::gd.N_sample_1sb]]
 
     return I_bitstream_af_sample, Q_bitstream_af_sample

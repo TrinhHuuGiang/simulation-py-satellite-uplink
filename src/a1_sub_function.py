@@ -1,6 +1,6 @@
 '''
 The library updates missing values 'None' before using global data
-- (*) call recalculate_when_shift_value() - when change default value simulate (cw_fc, Ptx, rif_K)
+- (*) call recalculate_when_shift_value() - when change default value simulate (cw_fc, Ptx(Arms), rif_K)
 - then call function 'sequence_calculate()' when to calculate None value essential
 '''
 
@@ -15,7 +15,7 @@ import a1_global_specific_data as gd
 *************************************************************'''
 def recalculate_when_shift_value(order):
     '''
-    order: 1- shift f, 2- shift Ptx, 3- shift rif_K
+    order: 1- shift f, 2- shift Ptx (Arms), 3- shift rif_K
     '''
     if(order == 1):
         # shift f
@@ -23,8 +23,11 @@ def recalculate_when_shift_value(order):
         gd.cw_Ts = 1/gd.cw_fs # cw_fs depend cw_fs
         gd.at1_l = (3*10**8)/gd.cw_f
         gd.at2_l = (3*10**8)/gd.cw_f
+    if(order == 2):
+        # shift cw_Arms
+        # thay doi Ptx
+        pass
 
-    # 
 
 def calculate_bit_rate_and_Bandreal():
     '''
@@ -92,7 +95,6 @@ def sequence_calculate():
     calculate_Antenna_receive_gain()
 
     # Log essential data
-    print("\n","-"*10,"[fc = {}]".format(gd.cw_f),"-"*10)
     # print("Bandwidth: {:.3f} Hz\nDiv(fc/Rsb): {} lan\nSymbol rate: {:.3} bps\tBitrate: {:.3} bps\tSymbol div: {} lan\nFnyquist: {} Hz\nGain ant tx: {:.3} lan\ndo cao chiu mua: {:.3} km".format(
     #     gd.cw_Bandreal,
     #     gd.div_fc_Rs,

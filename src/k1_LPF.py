@@ -11,7 +11,7 @@ import a1_global_specific_data as gd
 *************************************************************'''
 def FIR_LPF(wI_DEM, wQ_DEM):
     '''
-    Loc thong thap lay thanh pha 1 chieu
+    Loc thong thap lay thanh phan 1 chieu
     '''
     # [Loc thong thap]
     fir_f_cutoff = gd.cw_Bandreal/2
@@ -27,7 +27,6 @@ def FIR_LPF(wI_DEM, wQ_DEM):
     # Apply linear filter
     I_signal_LPF = signal.lfilter(FIR_lp_filter,1.0, wI_DEM)
     Q_signal_LPF = signal.lfilter(FIR_lp_filter,1.0, wQ_DEM)
-
 
 
     return I_signal_LPF, Q_signal_LPF
