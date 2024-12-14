@@ -24,6 +24,28 @@ def raised_cos_filter(t, sI_reshape, sQ_reshape):
     rc_h_t = (np.sinc(rc_time_h_t / gd.T_sb) * np.cos(gd.rc_a * np.pi * rc_time_h_t / gd.T_sb))/ \
             (1 - 4 * (gd.rc_a**2) * (rc_time_h_t**2) / (gd.T_sb**2))
 
+    # Kiểm tra nếu có giá trị NaN hoặc Infinity
+    if np.any(np.isnan(rc_h_t)) or np.any(np.isinf(rc_h_t)):
+        print("rc_h_t contains invalid values (NaN or infinity).")
+
+        # Tìm các vị trí bị lỗi
+        nan_indices = np.where(np.isnan(rc_h_t))[0]  # Chỉ mục các giá trị NaN
+        inf_indices = np.where(np.isinf(rc_h_t))[0]  # Chỉ mục các giá trị infinity
+
+        # In các chỉ mục bị lỗi
+        if nan_indices.size > 0:
+            print(f"NaN found at indices: {nan_indices}")
+        if inf_indices.size > 0:
+            print(f"Infinity found at indices: {inf_indices}")
+
+        # Loại bỏ các giá trị NaN hoặc Infinity
+        valid_indices = ~np.isnan(rc_h_t) & ~np.isinf(rc_h_t)  # Chỉ giữ lại giá trị hợp lệ
+        rc_h_t = rc_h_t[valid_indices]
+        rc_time_h_t = rc_time_h_t[valid_indices]  # Đồng thời cắt bỏ trong rc_time_h_t
+
+        print("Invalid values removed")
+
+
     # Tich chap de co duoc tin hieu raised cosin
     # chia cho n mau de chuan hoa gia tri sau chap
     rc_sI = convolve(sI_reshape, rc_h_t, mode='same') / gd.N_sample_1sb

@@ -21,7 +21,7 @@ from i1_LNA import Low_Noise_Amplifier, plot_LNA_wave
 from j1_QPSK_Demodulation import QPSK_Dedulator
 from k1_LPF import FIR_LPF, plot_DemodQPSK_LPF
 from l1_Comparator import Comparator_signal
-from l2_IQ_merge import Merge_bit_streams
+from l2_IQ_merge import Merge_bit_streams, BER
 '''*************************************************************
 * Code
 *************************************************************'''
@@ -109,6 +109,7 @@ I_bitstream_af_sample, Q_bitstream_af_sample = Comparator_signal(I_signal_LPF, Q
 # merge
 recover_stream_bit = Merge_bit_streams(I_bitstream_af_sample, Q_bitstream_af_sample)
 
+bit_err_rate = BER(bitstream, recover_stream_bit)
 
 
 # print
@@ -128,7 +129,7 @@ print("Q received   bits: {}".format(len(Q_bitstream_af_sample)))
 print("2 bit stream matched" if (bitstream == recover_stream_bit).all() else "does not match") 
 print("Rand bit: {}".format(bitstream[:10]))
 print("Recv bit: {}".format(recover_stream_bit[:10]))
-
+print("BER: {}%".format(bit_err_rate))
 
 # plt.show sau khi da ve xong
 # sau khi dong cac cua so figure, cac doi tuong fig1, fig2,... cung bi xoa

@@ -70,6 +70,7 @@ rc_a = 0.66             # (tu chon) He so cat 0< a < 1
 
 # Power Amplifier
 Ptx = 5                 # (Tham khao bai tap) Ptx = 5W ~ 7dB
+                        # gia tri nay lam chuan di -> Ptx real chu khong phai cong suat phat thuc
                         #-> (pa_a1*Arms)^2 = Ptx voi dieu kien pa_a2,pa_a3 << pa_a1
                         # va he so khuech dai B = pa_a1
 pa_a1 = np.sqrt(Ptx)/cw_Arms  # (var) Cac he so khuech dai dien ap
@@ -102,7 +103,7 @@ rl_Dr = None            # (depend) cu li chiu mua - km
 pl_d = 35786            # (const) khoang cach tram phat - ve tinh - Km
 
 # Rician fading
-rif_K = 1               # (Dieu chinh) Rician factor = PLOS/PNLOS
+rif_K = 0.1             # (Dieu chinh) Rician factor = PLOS/PNLOS
                         # K = A^2/o^2
                         # A la bien do tai diem xet fading
                         # o^2 la phuong sai nhieu (do song phan xa)

@@ -21,5 +21,13 @@ def time_and_signal_div(Istream, Qstream):
     # time axis - gioi han boi so bit
     t = np.arange(0, (gd.N_bit / 2) * gd.T_sb, gd.cw_Ts)
 
+    # fix bat dong bo mau
+    delta_sam = len(t)-len(sI_reshape)
+    if(delta_sam > 0): t = t[:len(sI_reshape)]#cat bot ho toi t
+    elif(delta_sam <0): 
+        # Tao mang thoi gian them
+        extra_time = np.arange(t[-1] + gd.cw_Ts, t[-1] + gd.cw_Ts * (-delta_sam), gd.cw_Ts)
+        t = np.concatenate((t, extra_time))
+
     return t, sI_reshape, sQ_reshape
 

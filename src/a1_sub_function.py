@@ -1,6 +1,7 @@
 '''
 The library updates missing values 'None' before using global data
-- only call function 'sequence_calculate()' 1 time
+- (*) call recalculate_when_shift_value() - when change default value simulate (cw_fc, Ptx, rif_K)
+- then call function 'sequence_calculate()' when to calculate None value essential
 '''
 
 '''*************************************************************
@@ -12,6 +13,19 @@ import a1_global_specific_data as gd
 '''*************************************************************
 * code 
 *************************************************************'''
+def recalculate_when_shift_value(order):
+    '''
+    order: 1- shift f, 2- shift Ptx, 3- shift rif_K
+    '''
+    if(order == 1):
+        # shift f
+        gd.cw_fs = gd.cw_f*gd.cw_sample
+        gd.cw_Ts = 1/gd.cw_fs # cw_fs depend cw_fs
+        gd.at1_l = (3*10**8)/gd.cw_f
+        gd.at2_l = (3*10**8)/gd.cw_f
+
+    # 
+
 def calculate_bit_rate_and_Bandreal():
     '''
     - cw_Bandreal
@@ -79,13 +93,13 @@ def sequence_calculate():
 
     # Log essential data
     print("\n","-"*10,"[fc = {}]".format(gd.cw_f),"-"*10)
-    print("Bandwidth: {:.3f} Hz\nDiv(fc/Rsb): {} lan\nSymbol rate: {:.3} bps\tBitrate: {:.3} bps\tSymbol div: {} lan\nFnyquist: {} Hz\nGain ant tx: {:.3} lan\ndo cao chiu mua: {:.3} km".format(
-        gd.cw_Bandreal,
-        gd.div_fc_Rs,
-        gd.R_sb,
-        gd.R_bit,
-        gd.N_sample_1sb,
-        gd.rc_fnq,
-        gd.at1_G,
-        gd.rl_Dr))
-    print("Gain ant rx: {:.3} lan".format(gd.at2_G))
+    # print("Bandwidth: {:.3f} Hz\nDiv(fc/Rsb): {} lan\nSymbol rate: {:.3} bps\tBitrate: {:.3} bps\tSymbol div: {} lan\nFnyquist: {} Hz\nGain ant tx: {:.3} lan\ndo cao chiu mua: {:.3} km".format(
+    #     gd.cw_Bandreal,
+    #     gd.div_fc_Rs,
+    #     gd.R_sb,
+    #     gd.R_bit,
+    #     gd.N_sample_1sb,
+    #     gd.rc_fnq,
+    #     gd.at1_G,
+    #     gd.rl_Dr))
+    # print("Gain ant rx: {:.3} lan".format(gd.at2_G))
