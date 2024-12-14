@@ -18,6 +18,6 @@ def freespace_loss(wt_af_rl):
 
     # wave transmit after rain loss
     Lfs = 10**(dB_Freespace/10)
-    wt_af_freespace = wt_af_rl*np.sqrt(Lfs)
+    wt_af_freespace = wt_af_rl/np.sqrt(Lfs)
 
     return dB_Freespace, wt_af_freespace

@@ -13,6 +13,7 @@ from d2_FIR_BPF import linear_FIR_BPF, plot_FIR_Hf, plot_BPF_wQPSK
 from e1_Transmitter_antenna import Gain_ant_para_1
 from f1_Rain_loss import rain_loss
 from f2_Freespace_loss import freespace_loss
+from g1_Rician_fading import rician_fading, plot_rician_fading
 '''*************************************************************
 * Code
 *************************************************************'''
@@ -54,15 +55,20 @@ plot_BPF_wQPSK(t, wQPSK_af_BPF)
 # transmitter antenna
 wt_af_at1, dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP = Gain_ant_para_1(t, wQPSK_af_BPF)
 
-print("Ptx: {}\nCable loss: {}\nGain_at1: {}\nEIRP: {}".format(dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP))
-
 # rain loss
 dB_Rainloss, wt_af_rl = rain_loss(wt_af_at1)
 
 # Freespace loss
 dB_Freespace, wt_af_freespace = freespace_loss(wt_af_rl)
 
+# Rician fading
+dB_total_receive, wt_af_fading = rician_fading(dB_EIRP, dB_Rainloss, dB_Freespace, wt_af_freespace)
+
+plot_rician_fading(t, wt_af_fading)
+
+print("Ptx: {}\nCable loss: {}\nGain_at1: {}\nEIRP: {}".format(dB_Ptx ,dB_cable_loss, dB_at1_G, dB_EIRP))
 print("Rainloss: {}\nFreespace loss: {}".format(dB_Rainloss, dB_Freespace))
+print("Prx: {}".format(dB_total_receive))
 
 # plt.show sau khi da ve xong
 # sau khi dong cac cua so figure, cac doi tuong fig1, fig2,... cung bi xoa

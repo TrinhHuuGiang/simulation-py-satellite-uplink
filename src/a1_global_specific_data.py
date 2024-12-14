@@ -36,7 +36,8 @@ num_src_symbol = 10     # Mo phong mot so lan ky tu (tin hieu I|Q) ma hoa PNRZ
 num_rcos_order = 3      # Mo phong mot so lan chu ky symbol cua dap ung xung h(t) bo loc
 num_mod_symbol = 10     # Mo phong so chu ky song da qua dieu che QPSK
                                 # tuong duong mot so lan ky tu
-
+num_rician_symbol = 10  # Mo phong so chy ky song chia tac dong fading
+                                # tuong duong mot vai ky tu
 
 # Dieu che song
 cw_f = 14*10**9          # (var) Tan so song mang (14Ghz cho uplink GEO)
@@ -78,7 +79,7 @@ pa_a3 = pa_a1/10        #
 
 
 # FIR BPF
-bpf_order = 500         # (tu chon) Bac cua bo loc FIR tuyen tinh
+bpf_order = 100         # (tu chon) Bac cua bo loc FIR tuyen tinh
                         # dieu chinh phu hop tranh group delay qua cao
 
 # Suy hao cap noi antenna phat
@@ -101,10 +102,11 @@ rl_Dr = None            # (depend) cu li chiu mua - km
 pl_d = 35786            # (const) khoang cach tram phat - ve tinh - Km
 
 # Rician fading
-rif_K = 10              # Rician factor = PLOS/PNLOS
+rif_K = 1               # (Dieu chinh) Rician factor = PLOS/PNLOS
                         # K = A^2/o^2
-                        # A la bien do tai dien xet fading
-                        # o la phuong sai nhieu (do song phan xa)
+                        # A la bien do tai diem xet fading
+                        # o^2 la phuong sai nhieu (do song phan xa)
+rif_var = None          # (depend) phuong sai
 
 # Thermal noise dau vao may thu
 thn_T = None            # (random) Bien ngau nhien nhieu nhiet - K

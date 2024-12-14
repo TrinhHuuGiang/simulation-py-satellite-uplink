@@ -18,6 +18,6 @@ def rain_loss(wt_af_at1):
 
     # wave transmit after rain loss
     Rl = 10**(dB_Rainloss/10)
-    wt_af_rl = wt_af_at1*np.sqrt(Rl)
+    wt_af_rl = wt_af_at1/np.sqrt(Rl)
 
     return dB_Rainloss, wt_af_rl
