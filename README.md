@@ -19,7 +19,7 @@ Mục tiêu chính:
 3. Mô phỏng và đánh giá các yếu tố quan trọng.  
 
 ## Thành viên nhóm
-- Thành viên 1: [Vũ Đức Hải]
+- Thành viên 1: [Vũ Đức Hải](https://github.com/vuhai3903)
 - Thành viên 2: [Nguyễn Quí Vượng](https://github.com/nqv96)
 - Thành viên 3: [Trình Hữu Giang](https://github.com/TrinhHuuGiang)
 - Thành viên 4: [Nguyễn Đăng Hải](https://github.com/haidang143)
