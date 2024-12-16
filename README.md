@@ -2,6 +2,8 @@
 Satellite Uplink Simulation
 
 # Satellite Uplink Simulation
+![Plot dB_SNR](source_formula/wt_SNR.jpg)
+![Plot dB_C_N](source_formula/wt_CN.jpg)
 
 ## Thông tin nhóm
 - **Nhóm**: 11  
