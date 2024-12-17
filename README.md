@@ -22,10 +22,11 @@ Mục tiêu chính:
 3. Mô phỏng và đánh giá các yếu tố quan trọng.  
 
 ## Thành viên nhóm
-- Thành viên 1: [Vũ Đức Hải](https://github.com/vuhai3903)
+- Thành viên 1: [Trình Hữu Giang](https://github.com/TrinhHuuGiang)
 - Thành viên 2: [Nguyễn Quí Vượng](https://github.com/nqv96)
-- Thành viên 3: [Trình Hữu Giang](https://github.com/TrinhHuuGiang)
-- Thành viên 4: [Nguyễn Đăng Hải](https://github.com/haidang143)
+- Thành viên 3: [Nguyễn Đăng Hải](https://github.com/haidang143)
+- Thành viên 4: [Vũ Đức Hải](https://github.com/vuhai3903)
+
 
 ## Cấu trúc repository
 - `docs/`: Tài liệu và báo cáo.  
@@ -39,9 +40,9 @@ Mục tiêu chính:
    git clone https://github.com/TrinhHuuGiang/group-11-satellite-uplink-20241.git
 
 2. Chạy file mô phỏng:
-   Code điều chế và giải điều chế tín hiệu, kênh truyền Rician, tạp âm nhiệt:  
+   Code điều chế và giải điều chế tín hiệu, kênh truyền Rician, tạp âm nhiệt:
    - python z_Run_expect_script.py  
-   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi tần số sóng mang:  
-   – python z_shift_fc.py  
-   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi công suất phát:  
-   – python z_shift_Ptx.py  
+   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi tần số sóng mang:
+   - python z_shift_fc.py  
+   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi công suất phát:
+   - python z_shift_Ptx.py  
