@@ -9,7 +9,7 @@ Satellite Uplink Simulation
 ![Plot fc_SNR](results/F_SNR.png)
 
 ## Thông tin nhóm
-- **Nhóm**: 11  
+- **Nhóm**: SatComm 11  
 - **Mã lớp**: 154918  
 - **Môn học**: Hệ thống viễn thông (ET4250)  
 - **Học kỳ**: 20241  
