@@ -2,16 +2,11 @@
 Satellite Uplink Simulation
 
 # Satellite Uplink Simulation
-<<<<<<< HEAD
-![Plot Ptx_SNR](results/Ptx_SNR.jpg)
-![Plot Ptx_C_N](results/Ptx_CN.jpg)
-![Plot Ptx_BER](results/Ptx_BER.jpg)
-![Plot fc_C_N](results/F_CN.jpg)
-![Plot fc_SNR](results/F_SNR.jpg)
-=======
-![Plot dB_SNR](source_formula/wt_SNR.jpg)
-![Plot dB_C_N](source_formula/wt_CN.jpg)
->>>>>>> 175b2011912040ed2046846173d80f3a5d71b35a
+![Plot Ptx_SNR](results/Ptx_SNR.png)
+![Plot Ptx_C_N](results/Ptx_CN.png)
+![Plot Ptx_BER](results/Ptx_BER.png)
+![Plot fc_C_N](results/F_CN.png)
+![Plot fc_SNR](results/F_SNR.png)
 
 ## Thông tin nhóm
 - **Nhóm**: 11  
@@ -44,9 +39,9 @@ Mục tiêu chính:
    git clone https://github.com/TrinhHuuGiang/group-11-satellite-uplink-20241.git
 
 2. Chạy file mô phỏng:
-Code điều chế và giải điều chế tín hiệu, kênh truyền Rician, tạp âm nhiệt:
-– python z_Run_expect_script.py
-Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi tần số sóng mang:
-– python z_shift_fc.py
-Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi công suất phát:
-– python z_shift_Ptx.py
+   Code điều chế và giải điều chế tín hiệu, kênh truyền Rician, tạp âm nhiệt:  
+   - python z_Run_expect_script.py  
+   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi tần số sóng mang:  
+   – python z_shift_fc.py  
+   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi công suất phát:  
+   – python z_shift_Ptx.py  
