@@ -3,6 +3,7 @@
 *************************************************************'''
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 import a1_global_specific_data as gd
 from a1_sub_function import sequence_calculate, recalculate_when_shift_value
@@ -89,11 +90,9 @@ def repeat_log(order):
     return bit_err_rate, dB_C_N, dB_SNR
 
 def plot_fc_expected_value(fc_map, BER_map, C_N_map, SNR_map):
-    plt.figure() # tao plot figure
-
     # ************  f - BER  *************
-    plt.subplot(3,1,1)
-    plt.title("Carrier frequency - BER")
+    plt.figure(gd.fig1) # tao plot figure
+    plt.title("Carrier frequency - BER | K = {}".format(gd.rif_K))
     plt.plot(fc_map, BER_map)
     plt.ylabel("(%)")
     plt.xlabel("(Ghz)")
@@ -105,7 +104,7 @@ def plot_fc_expected_value(fc_map, BER_map, C_N_map, SNR_map):
     # plt.grid()
 
     # ************  f - C/N  *************
-    plt.subplot(3,1,2)
+    plt.figure(gd.fig2) # tao plot figure
     plt.title("Carrier frequency - C/N")
     plt.plot(fc_map, C_N_map)
     plt.ylabel("(dB)")
@@ -114,7 +113,7 @@ def plot_fc_expected_value(fc_map, BER_map, C_N_map, SNR_map):
     # plt.xticks(fc_map)
 
     # ************  f - SRN  *************
-    plt.subplot(3,1,3)
+    plt.figure(gd.fig3) # tao plot figure
     plt.title("Carrier frequency - SNR")
     plt.plot(fc_map, SNR_map)
     plt.ylabel("SNR (dB)")
@@ -129,14 +128,35 @@ def plot_fc_expected_value(fc_map, BER_map, C_N_map, SNR_map):
 * Script
 *************************************************************'''
 num_sim = 50
-fc_map = np.linspace(12*(10**9), 16*(10**9), num_sim)
+fc_map = np.linspace(12*(10**9), 18*(10**9), num_sim)
 BER_map = []
 C_N_map = []
 SNR_map = []
 
 for f in fc_map: # thuc hien 25 lan
     gd.cw_f = f # thay doi global fc - tan so song mang
-    bit_err_rate, dB_C_N, dB_SNR = repeat_log(1)
+
+    n = 100
+    count = n
+    bit_err_rate = 0
+    dB_C_N = 0
+    dB_SNR = 0
+    while count:
+        print(count)
+        count-=1 # 10^4 theo chuan ?
+
+        Log_bit_err_rate, Log_dB_C_N, Log_dB_SNR = repeat_log(1)
+        
+        bit_err_rate+=Log_bit_err_rate
+        dB_C_N+=Log_dB_C_N
+        dB_SNR+=Log_dB_SNR
+
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    bit_err_rate/=n
+    dB_C_N/=n
+    dB_SNR/=n
+
     BER_map.append(bit_err_rate)
     C_N_map.append(dB_C_N)
     SNR_map.append(dB_SNR)

@@ -71,6 +71,9 @@ def calculate_Antenna_trans_gain():
     '''
     Gain of transmitter atenna
     '''
+    min_fc=12*10**9
+    gd.at1_l = (3*10**8)/(min_fc)
+
     # gain (lan cong suat)
     gd.at1_G = gd.at1_n*(np.pi * gd.at1_D / gd.at1_l)**2
 
@@ -84,8 +87,14 @@ def calculate_Antenna_receive_gain():
     '''
     Gain of receive atenna
     '''
+    min_fc=12*10**9
+    gd.at2_l = (3*10**8)/(min_fc)
+
     # gain (lan cong suat)
     gd.at2_G = gd.at2_n*(np.pi * gd.at2_D / gd.at2_l)**2
+
+    # limtit
+    
 
 def sequence_calculate():
     calculate_bit_rate_and_Bandreal()

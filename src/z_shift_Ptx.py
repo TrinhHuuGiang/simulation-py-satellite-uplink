@@ -3,6 +3,7 @@
 *************************************************************'''
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 import a1_global_specific_data as gd
 from a1_sub_function import sequence_calculate, recalculate_when_shift_value
@@ -90,11 +91,9 @@ def repeat_log(order):
     return dB_Ptx, bit_err_rate, dB_C_N, dB_SNR
 
 def plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map, SNR_map):
-    plt.figure() # tao plot figure
-
     # ************  Ptx - BER  *************
-    plt.subplot(3,1,1)
-    plt.title("Ptx - BER")
+    plt.figure(gd.fig1) # tao plot figure
+    plt.title("Ptx - BER | K = {}".format(gd.rif_K))
     plt.plot(Ptx_map, BER_map)
     plt.ylabel("BER (%)")
     plt.xlabel("Ptx (dB)")
@@ -106,7 +105,7 @@ def plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map, SNR_map):
     # plt.grid()
 
     # ************  Ptx - C/N  *************
-    plt.subplot(3,1,2)
+    plt.figure(gd.fig2) # tao plot figure
     plt.title("Ptx - C/N")
     plt.plot(Ptx_map, C_N_map)
     plt.ylabel("C/N (dB)")
@@ -115,7 +114,7 @@ def plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map, SNR_map):
     # plt.xticks(Ptx_map)
 
     # ************  Ptx - SRN  *************
-    plt.subplot(3,1,3)
+    plt.figure(gd.fig3) # tao plot figure
     plt.title("Ptx - SNR")
     plt.plot(Ptx_map, SNR_map)
     plt.ylabel("SNR (dB)")
@@ -130,7 +129,7 @@ def plot_Ptx_expected_value(Ptx_map, BER_map, C_N_map, SNR_map):
 * Script
 *************************************************************'''
 num_sim = 50
-Arms_map = np.linspace(0.01,5,num_sim)
+Arms_map = np.linspace(0.01,1.5,num_sim)
 Ptx_map = []
 BER_map = []
 C_N_map = []
@@ -139,7 +138,31 @@ SNR_map = []
 for A in Arms_map: # thuc hien 100 lan
     gd.cw_Arms = A # thay doi global Arms - bien do song mang
 
-    dB_Ptx, bit_err_rate, dB_C_N ,dB_SNR= repeat_log(2)
+    n = 100
+    count = n
+    dB_Ptx = 0
+    bit_err_rate = 0
+    dB_C_N = 0
+    dB_SNR = 0
+    while count:
+        print(count)
+        count-=1 # 10^4 theo chuan ?
+
+        Log_dB_Ptx, Log_bit_err_rate, Log_dB_C_N ,Log_dB_SNR= repeat_log(2)
+        
+        dB_Ptx+=Log_dB_Ptx
+        bit_err_rate+=Log_bit_err_rate
+        dB_C_N+=Log_dB_C_N
+        dB_SNR+=Log_dB_SNR
+
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    
+    dB_Ptx/=n
+    bit_err_rate/=n
+    dB_C_N/=n
+    dB_SNR/=n
+
     Ptx_map.append(dB_Ptx)
     BER_map.append(bit_err_rate)
     C_N_map.append(dB_C_N)

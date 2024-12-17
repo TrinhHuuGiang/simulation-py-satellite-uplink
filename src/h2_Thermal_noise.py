@@ -52,7 +52,8 @@ def thermal_noise(wt_af_at2, dB_total_after_ant2):
     Ptotal = (10**(dB_total_after_ant2/10))
     PLOS = Ptotal*gd.rif_K/(gd.rif_K+1)
     PNLOS = Ptotal/(gd.rif_K+1)
-    dB_SNR = 10*np.log(PLOS / (PNLOS + aver_Pn )) 
+    # dB_SNR = 10*np.log(PLOS / (PNLOS + aver_Pn )) 
+    dB_SNR = 10*np.log(PLOS / (aver_Pn)) 
 
     return wt_af_thermal, dB_total_receive, dB_C_N, dB_SNR
 

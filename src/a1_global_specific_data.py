@@ -53,7 +53,7 @@ cw_Bandmax = 50*10**6    # (Tham khao tai lieu) Bang thong toi da (Max Bandwidth
 cw_Bandreal = None      # (depend) tinh toan thong qua cong thuc R_sb*(1+rc_a)
 
 # Tin hieu
-N_bit = 500             # (random) So luong bit can mo phong, random du nhieu (lon qua bi crash)
+N_bit = 100              # (random) So luong bit can mo phong, random du nhieu (lon qua bi crash)
 N_sb = N_bit/np.log2(cw_M)  # (random) So luong symbol de dieu che = N_bit/log2(cw_M)
 div_fc_Rs = None        # ty le cw_f/R_sb thuoc N*
 R_sb = None             # (depend) Toc do truyen ky tu (toc do cac dong I|Q trong Qpsk)
@@ -91,7 +91,7 @@ cable_loss = 2          # lan ~ -3dB
 # Anten phat
 at1_n = 0.6             # (Tham khao bai tap) do hieu qua (0.5 -0.8)
 at1_D = 3               # (Tham khao bai tap) duong kinh anten (m)
-at1_l = (3*10**8)/cw_f  # (Tham khao bai tap) buoc song - wavelength (m)
+at1_l = None            # (depend) buoc song - wavelength (m)
 at1_G = None            # (depend) cong thuc antenna Gain (lan hoac dB)
 
 #  rain loss
@@ -105,7 +105,7 @@ rl_Dr = None            # (depend) cu li chiu mua - km
 pl_d = 35786            # (const) khoang cach tram phat - ve tinh - Km
 
 # Rician fading
-rif_K = 1             # (Dieu chinh) Rician factor = PLOS/PNLOS
+rif_K = 1               # (Dieu chinh) Rician factor = PLOS/PNLOS
                         # K = A^2/o^2
                         # A la bien do tai diem xet fading
                         # o^2 la phuong sai nhieu (do song phan xa)
@@ -119,7 +119,7 @@ thn_k = 1.38*10**(-23)  # (const) hang so boltzman
 # Anten thu
 at2_n = 0.6             # (Tham khao bai tap) do hieu qua (0.5 -0.8)
 at2_D = 2               # (Tham khao bai tap) duong kinh anten (m)
-at2_l = (3*10**8)/cw_f  # (Tham khao bai tap) buoc song - wavelength (m)
+at2_l = None            # (depend) buoc song - wavelength (m)
 at2_G = None            # (depend) cong thuc antenna Gain (lan hoac dB)
 
 
