@@ -8,41 +8,38 @@ Satellite Uplink Simulation
 ![Plot fc_C_N](results/F_CN.png)
 ![Plot fc_SNR](results/F_SNR.png)
 
-## Thông tin nhóm
-- **Nhóm**: SatComm 11  
-- **Mã lớp**: 154918  
-- **Môn học**: Hệ thống viễn thông (ET4250)  
-- **Học kỳ**: 20241  
+## Group Information
+- **Group**: SatComm 11  
+- **Class Code**: 154918  
+- **Course**: Telecommunication Systems (ET4250)
+- **Semester**: 20241 - HUST  
 
-## Tổng quan dự án
-Đây là bài tập lớn trong môn học *Hệ thống viễn thông*. Dự án tập trung vào mô phỏng kênh truyền uplink trong hệ thống thông tin vệ tinh.  
-Mục tiêu chính:
-1. Mô hình hóa kênh truyền uplink của vệ tinh.  
-2. Phân tích chất lượng tín hiệu và các thông số hiệu năng.  
-3. Mô phỏng và đánh giá các yếu tố quan trọng.  
+## Project Overview
+This is a major assignment for the *Telecommunication Systems* course. The project focuses on simulating the uplink channel in satellite communication systems.  
+Key objectives:
+1. Model the uplink channel of a satellite.  
+2. Analyze signal quality and performance metrics.  
+3. Simulate and evaluate key influencing factors.  
 
-## Thành viên nhóm
-- Thành viên 1: [Trình Hữu Giang](https://github.com/TrinhHuuGiang)
-- Thành viên 2: [Nguyễn Quí Vượng](https://github.com/nqv96)
-- Thành viên 3: [Nguyễn Đăng Hải](https://github.com/haidang143)
-- Thành viên 4: [Vũ Đức Hải](https://github.com/vuhai3903)
+## Contributors
+- Member 1: [Trinh Huu Giang](https://github.com/TrinhHuuGiang)  
+- Member 2: [Nguyen Qui Vuong](https://github.com/nqv96)  
+- Member 3: [Vu Duc Hai](https://github.com/vuhai3903)  
 
+## Repository Structure
+- `src/`: Source code and simulation scripts.  
+- `results/`: Simulation results and analysis.  
+- `README.md`: Project description.  
 
-## Cấu trúc repository
-- `docs/`: Tài liệu và báo cáo.  
-- `src/`: Mã nguồn và kịch bản mô phỏng.  
-- `results/`: Kết quả mô phỏng và phân tích.  
-- `README.md`: Mô tả dự án.  
-
-## Cách chạy dự án
-1. Clone repository về máy:
+## How to Run the Project
+1. Clone the repository to your local computer:  
    ```bash
-   git clone https://github.com/TrinhHuuGiang/group-11-satellite-uplink-20241.git
+   git clone https://github.com/TrinhHuuGiang/simulation-py-satellite-uplink.git
 
-2. Chạy file mô phỏng:
-   Code điều chế và giải điều chế tín hiệu, kênh truyền Rician, tạp âm nhiệt:
+2. Run the simulation scripts:  
+   Signal modulation/demodulation, Rician channel, thermal noise,...:  
    - python z_Run_expect_script.py  
-   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi tần số sóng mang:
+   Plot BER, SNR, and C/N variation with carrier frequency:  
    - python z_shift_fc.py  
-   Vẽ biểu đồ BER, SNR, C/N thay đổi khi thay đổi công suất phát:
+   Plot BER, SNR, and C/N variation with transmit power:  
    - python z_shift_Ptx.py  
