@@ -1,13 +1,6 @@
 # group-11-satellite-uplink-20241
 Satellite Uplink Simulation
 
-# Satellite Uplink Simulation
-![Plot Ptx_SNR](results/Ptx_SNR.png)
-![Plot Ptx_C_N](results/Ptx_CN.png)
-![Plot Ptx_BER](results/Ptx_BER.png)
-![Plot fc_C_N](results/F_CN.png)
-![Plot fc_SNR](results/F_SNR.png)
-
 ## Group Information
 - **Group**: SatComm 11  
 - **Class Code**: 154918  
@@ -42,4 +35,11 @@ Key objectives:
    Plot BER, SNR, and C/N variation with carrier frequency:  
    - python z_shift_fc.py  
    Plot BER, SNR, and C/N variation with transmit power:  
-   - python z_shift_Ptx.py  
+   - python z_shift_Ptx.py
+
+# Satellite Uplink Simulation
+![Plot Ptx_SNR](results/Ptx_SNR.png)
+![Plot Ptx_C_N](results/Ptx_CN.png)
+![Plot Ptx_BER](results/Ptx_BER.png)
+![Plot fc_C_N](results/F_CN.png)
+![Plot fc_SNR](results/F_SNR.png)
